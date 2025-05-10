@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        #notes-container {
+            margin-top: 20px;
+        }
+
+        .note-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #e0e0e0;
+        }
+
+        .note-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .note-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            border: none;
+            outline: none;
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .note-content {
+            font-size: 1.0rem;
+            color: #34495e;
+            line-height: 1.6;
+            border: none;
+            outline: none;
+            padding: 8px;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            overflow: hidden;
+            resize: none;
+            transition: height 0.2s ease;
+            box-shadow: none;
+            outline: none;
+        }
+
+        #home {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #home h3 {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .add-note-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+            line-height: 60px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .add-note-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <section id="home">
+        <h3 class="text-center">Notes appear here</h3>
+    </section>
+
+    <section class="p-3">
+        <div id="notes-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" data-masonry='{"percentPosition": true }'>
+
+        </div>
+    </section>
+
+
+    <button
+        id="add-note"
+        type="button"
+        class="btn btn-info fs-1 rounded-4 add-note-button"
+        
+    >
+        +
+    </button>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+    <script>
+        const notesContainer = document.getElementById('notes-container');
+        const addNoteButton = document.getElementById('add-note');
+
+        const masonry = new Masonry(notesContainer, {
+            itemSelector: '.col',
+            percentPosition: true,
+            gutter: 16
+        });
+
+
+        function createNoteCard() {
+            const removeHome = document.getElementById("home");
+
+
+            const col = document.createElement('div');
+            col.className = 'col';
+            col.innerHTML = `
+        <div class="card note-card">
+          <form>
+            <div>
+              <textarea
+                class="form-control note-title"
+                placeholder="Title"></textarea>
+            </div>
+            <div>
+              <textarea
+                class="form-control note-content"
+                placeholder="Note"></textarea>
+            </div>
+          </form>
+        </div>
+      `;
+
+            removeHome.classList.add("d-none");
+
+            notesContainer.appendChild(col);
+
+
+            col.querySelectorAll('.note-content').forEach(textarea => {
+                textarea.addEventListener('input', function () {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                    masonry.layout();
+                });
+            });
+
+            masonry.appended(col);
+            masonry.layout();
+        }
+
+        addNoteButton.addEventListener('click', createNoteCard);
+    </script>
+</body>
+</html>

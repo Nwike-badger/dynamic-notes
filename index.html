@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Notes</title>
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    textarea {
+      overflow: hidden;
+      resize: none;
+      transition: height 0.2s ease;
+      box-shadow: none;
+      outline: none;
+    }
+
+     #home {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #home h3 {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    text-align: center;
+  }
+    
+  </style>
+</head>
+<body>
+
+  <section id="home">
+    <h3 class="text-center">Notes appear here</h3>
+  </section>
+
+  <section class="p-3">
+    <div id="notes-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" data-masonry='{"percentPosition": true }'>
+    
+    </div>
+  </section>
+
+  
+  <button 
+    id="add-note" 
+    type="button" 
+    class="btn btn-info fs-1 rounded-4" 
+    style="position: fixed; bottom: 20px; right: 20px; z-index: 1050;">
+    +
+  </button>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+  <script>
+    const notesContainer = document.getElementById('notes-container');
+    const addNoteButton = document.getElementById('add-note');
+    
+    const masonry = new Masonry(notesContainer, {
+      itemSelector: '.col',
+      percentPosition: true,
+      gutter: 16
+    });
+    
+
+    function createNoteCard() {
+      const removeHome = document.getElementById("home");
+      
+      
+      const col = document.createElement('div');
+      col.className = 'col';
+      col.innerHTML = `
+        <div class="card border-0 shadow-sm p-3">
+          <form>
+            <div>
+              <textarea 
+                class="form-control note-content border-0 fw-bold fs-4" 
+                style="box-shadow: none; outline: none; overflow:hidden; resize:none;"
+                placeholder="Title"></textarea>
+            </div>
+            <div>
+              <textarea 
+                class="form-control note-content border-0" 
+                style="box-shadow: none; outline: none; overflow:hidden; resize:none;"
+                placeholder="Note"></textarea>
+            </div>
+          </form>
+        </div>
+      `;
+
+      removeHome.classList.add("d-none");
+
+      notesContainer.appendChild(col);
+
+      
+      col.querySelectorAll('.note-content').forEach(textarea => {
+        textarea.addEventListener('input', function () {
+          this.style.height = 'auto';
+          this.style.height = this.scrollHeight + 'px';
+          masonry.layout();
+        });
+      });
+
+      masonry.appended(col);
+      masonry.layout();
+    }
+
+    addNoteButton.addEventListener('click', createNoteCard);
+  </script>
+</body>
+</html>
