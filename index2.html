@@ -6,288 +6,80 @@
     <title>Dynamic Notes</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        #notes-container {
-            margin-top: 20px;
-        }
-
-        .note-card {
-            
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            border: 1px solid #e0e0e0;
-        }
-
-        .note-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .notetitle-design {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 12px;
-            border: none;
-            outline: none;
-            padding: 8px;
-            border-bottom: 1px solid #e0e0e0;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .notecontent-design {
-            font-size: 1.0rem;
-            color: #34495e;
-            line-height: 1.6;
-            border: none;
-            outline: none;
-            padding: 8px;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            overflow: hidden;
-            resize: none;
-            transition: height 0.2s ease;
-            box-shadow: none;
-            outline: none;
-        }
-
-        #home {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #home h3 {
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            text-align: center;
-            color: #7f8c8d;
-        }
-
-        .add-note-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1050;
-            background-color: #3498db;
-            color: white;
-            border-radius: 50%;
-            width: 60px;
-            height: 100px;
-            font-size: 2rem;
-            line-height: 60px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .add-note-button:hover {
-            background-color: #2980b9;
-            transform: scale(1.1);
-        }
-
-
-
-         .card:hover {
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .card .list-group-item {
-  background-color: transparent;
-}
-
-
-    .card-footer-actions {
-      height: 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #dee2e6;
-      padding: 0.5rem;
-    }
-
-    .card-footer-actions .btn {
-      display: none;
-      opacity: 0;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      transform: translateY(5px);
-    }
-
-    .card:hover .card-footer-actions .btn,
-    .card.show-actions .card-footer-actions .btn {
-      display: inline-block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .card-footer-actions .btn:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-      transform: scale(1.1);
-    }
-
-    .options-menu {
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      position: absolute;
-      bottom: 70px;
-      right: 0.5rem;
-      z-index: 100;
-      display: none;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      min-width: 150px;
-    }
-
-    .options-menu.show {
-      display: block;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .options-menu button {
-      display: block;
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: none;
-      background: none;
-      text-align: left;
-      transition: background-color 0.2s ease;
-      color: #333;
-    }
-
-    .options-menu button:hover {
-      background-color: #f0f0f0;
-      cursor: pointer;
-    }
-
-    .options-menu button:active {
-      background-color: #e0e0e0;
-    }
-
-    #options-btn {
-      border: none;
-      background: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.25rem;
-      line-height: 1;
-      transition: transform 0.2s ease;
-    }
-
-    #options-btn:hover {
-      transform: scale(1.2);
-      color: #007bff;
-    }
-
-    .icon-img {
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-      transition: transform 0.2s ease;
-    }
-
-    .icon-img:hover {
-      transform: scale(1.2);
-    }
-
-    .bg-color-menu {
-      position: absolute;
-      bottom: 70px;
-      left: 0.5rem;
-      display: none;
-      flex-wrap: wrap;
-      gap: 6px;
-      padding: 0.5rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      z-index: 101;
-    }
-
-    .bg-color-menu.show {
-      display: flex;
-    }
-
-    .color-swatch {
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .color-swatch:hover {
-      transform: scale(1.2);
-      border-color: #333;
-    }
-
-
-
-    </style>
+   
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <section>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+  <section>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid d-flex align-items-center">
+
+     <div class="d-flex align-items-center ps-3">
+       <a href="#" title="Main Menu" class="pe-3">
+          <img src="./images/bars-svgrepo-com.svg" alt="Options" style="width: 30px; opacity: 0.6;" />
+      </a>
+
+       <a class="navbar-brand d-flex align-items-center gap-1" href="#" title="Store">
+          <img src="./images/keep_2020q4_48dp.png" alt="" />
+          Store
+        </a>
+     </div>
+
+      <form class="d-flex w-50 position-relative search-form" role="search">
+
+    <a href="#"
+   title="Search"
+   class="position-absolute d-flex align-items-center justify-content-center icon-hover"
+   style="left: 10px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; padding: 0;">
+  <img src="./images/search-svgrepo-com.svg" 
+       alt="search icon" 
+       style="width: 18px; opacity: 0.6;" />
+</a>
+
+  <input
+    class="form-control me-2 w-100 ps-5"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+  />
+
+  
+  <a href="#"
+   title="Clear search"
+   class="position-absolute end-0 me-4 mt-1 d-flex align-items-center justify-content-center icon-hover"
+   style="width: 32px; height: 32px; padding: 0;">
+  <img src="./images/x-symbol-svgrepo-com.svg"
+       alt="clear"
+       style="width: 15px; opacity: 0.6;">
+</a>
+
+
+    </form>
+
+  
+      <a class="nav-link active icon-hover-refresh"
+   aria-current="page"
+   title="Refresh"
+   href="#">
+  <img src="images/refresh-svgrepo-com(1).svg"
+       alt="refresh"
+       style="width: 24px; opacity: 0.6;">
+</a>
+
+                    
     </div>
-  </div>
-</nav>
-    </section>
+  </nav>
+</section>
+
+<a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Options">
+  <img src="./images/options-icon.png" alt="Options" style="width: 24px;">
+</a>
+
+
+
+
+
+
 
     <section id="home">
         <h3 class="text-center">Notes appear here</h3>

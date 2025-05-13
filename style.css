@@ -1,17 +1,292 @@
-.completed {
-    text-decoration: line-through;
-    color: #888;
-  }
-  .todo-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .todo-text {
-    flex-grow: 1;
-    margin: 0 10px;
-  }
-  .todo-buttons button {
-    margin-left: 5px;
-  }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        #notes-container {
+            margin-top: 20px;
+        }
+
+        .note-card {
+            
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #e0e0e0;
+        }
+
+        .note-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .notetitle-design {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            border: none;
+            outline: none;
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .notecontent-design {
+            font-size: 1.0rem;
+            color: #34495e;
+            line-height: 1.6;
+            border: none;
+            outline: none;
+            padding: 8px;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            overflow: hidden;
+            resize: none;
+            transition: height 0.2s ease;
+            box-shadow: none;
+            outline: none;
+        }
+
+        #home {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #home h3 {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .add-note-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 100px;
+            font-size: 2rem;
+            line-height: 60px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .add-note-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.1);
+        }
+
+
+
+         .card:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card .list-group-item {
+  background-color: transparent;
+}
+
+
+    .card-footer-actions {
+      height: 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #dee2e6;
+      padding: 0.5rem;
+    }
+
+    .card-footer-actions .btn {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: translateY(5px);
+    }
+
+    .card:hover .card-footer-actions .btn,
+    .card.show-actions .card-footer-actions .btn {
+      display: inline-block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-footer-actions .btn:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      transform: scale(1.1);
+    }
+
+    .options-menu {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      position: absolute;
+      bottom: 70px;
+      right: 0.5rem;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      min-width: 150px;
+    }
+
+    .options-menu.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .options-menu button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      background: none;
+      text-align: left;
+      transition: background-color 0.2s ease;
+      color: #333;
+    }
+
+    .options-menu button:hover {
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+
+    .options-menu button:active {
+      background-color: #e0e0e0;
+    }
+
+    #options-btn {
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    #options-btn:hover {
+      transform: scale(1.2);
+      color: #007bff;
+    }
+
+    .icon-img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+
+    .icon-img:hover {
+      transform: scale(1.2);
+    }
+
+    .bg-color-menu {
+      position: absolute;
+      bottom: 70px;
+      left: 0.5rem;
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 101;
+    }
+
+    .bg-color-menu.show {
+      display: flex;
+    }
+
+    .color-swatch {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.2);
+      border-color: #333;
+    }
+
+    .tooltip .tooltip-arrow {
+  display: none !important;
+}
+
+.tooltip-inner {
+  background-color: #0d6efd !important; 
+  color: white;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.search-form{
+  width: 1000px !important; 
+}
+
+.no-hover-bg:hover {
+    background-color: transparent !important;
+    box-shadow: none;
+}
+
+
+.icon-hover {
+  transition: background-color 0.2s ease;
+}
+
+.icon-hover:hover {
+  background-color: #dee2e6; 
+  border-radius: 50%;
+}
+
+.icon-hover-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; 
+  height: 40px;
+  transition: background-color 0.2s ease, border-radius 0.2s ease;
+  border-radius: 50%;
+  margin-right: 50px;
+}
+
+.icon-hover-refresh:hover {
+  background-color: #dee2e6;
+}
+
+
+
+
+
+
   
